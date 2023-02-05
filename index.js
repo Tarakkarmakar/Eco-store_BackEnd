@@ -19,7 +19,7 @@ app.use(cors())
 
 app.get("/",(req,res)=>{
 
-   res.send("this is my socail api")
+   res.send("This API is Private -*Made By Tarak* ")
 })
 
 app.use("/admin",AdminuserRoute)
