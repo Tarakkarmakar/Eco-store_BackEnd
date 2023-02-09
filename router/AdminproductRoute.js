@@ -1,112 +1,85 @@
-const express=require("express")
+const express = require("express");
 
-const {productModel}=require("../models/ProductsModel")
+const { productModel } = require("../models/ProductsModel");
 
+const AdminProductsRoute = express.Router();
 
-const AdminProductsRoute=express.Router()
+AdminProductsRoute.get("/", async (req, res) => {
+  const userID_req = req.body.userID;
 
-AdminProductsRoute.get("/",async(req,res)=>{
+  const products = await productModel.find({ userID: userID_req });
 
-    const userID_req=req.body.userID
-   
-const products=await productModel.find({"userID":userID_req})
+  res.send(products);
+});
+AdminProductsRoute.get("/All", async (req, res) => {
+  const products = await productModel.find();
 
-res.send(products)
+  res.send(products);
+});
 
-})
-AdminProductsRoute.get("/All",async(req,res)=>{
+AdminProductsRoute.post("/create", async (req, res) => {
+  const payload = req.body;
 
-   
-const products=await productModel.find()
+  try {
+    const new_product = new productModel(payload);
 
-res.send(products)
+    await new_product.save();
 
-})
+    res.send({ msg: "products has been save" });
+  } catch (err) {
+    res.send({ msg: "invalid" });
+  }
+});
+AdminProductsRoute.patch("/update/:id", async (req, res) => {
+  const payload = req.body;
 
-AdminProductsRoute.post("/create",async(req,res)=>{
+  const id = req.params.id;
 
+  const product = await productModel.findOne({ _id: id });
 
-    const payload =req.body
+  const userID_who_req = req.body.userID;
+  const userID_post = product.userID;
+  try {
+    if (userID_who_req !== userID_post) {
+      res.send({ msg: "Not authorized" });
+    } else {
+      await productModel.findByIdAndUpdate({ _id: id }, payload);
 
-    try{
-        const new_product=new productModel(payload)
-
-        await new_product.save()
-
-        res.send({"msg":"products has been save"})
-    }catch(err){
-
-        res.send({"msg":"invalid"})
+      res.send({ msg: "products is updated" });
     }
-})
-AdminProductsRoute.patch("/update/:id",async(req,res)=>{
+  } catch (err) {
+    console.log(err);
 
-    const payload=req.body
+    res.send("please check you are authorized or not to updat");
+  }
+});
 
+AdminProductsRoute.delete("/delete/:id", async (req, res) => {
+  const payload = req.body;
 
-        const id=req.params.id
+  const id = req.params.id;
 
-        const product=await productModel.findOne({"_id":id})
+  const product = await productModel.findOne({ _id: id });
 
-        const userID_who_req=req.body.userID
-        const userID_post=product.userID
-        try{
+  const userID_who_req = req.body.userID;
+  const userID_post = product.userID;
+  try {
+    if (userID_who_req !== userID_post) {
+      res.send({ msg: "Not authorized" });
+    } else {
+      await productModel.findByIdAndDelete({ _id: id }, payload);
 
-            if(userID_who_req!==userID_post){
-            
-                res.send({"msg":"Not authorized"})
-            }else{
+      res.send({ msg: "products is deleted" });
+    }
+  } catch (err) {
+    console.log(err);
 
-                await productModel.findByIdAndUpdate({"_id":id},payload)
-
-                res.send({"msg":"products is updated"})
-            }
-        
-        }catch(err){
-
-            console.log(err)
-
-            res.send("please check you are authorized or not to updat")
-        }
-   
-})
-
-
-AdminProductsRoute.delete("/delete/:id",async(req,res)=>{
-
-    const payload=req.body
-
-
-        const id=req.params.id
-
-        const product=await productModel.findOne({"_id":id})
-
-        const userID_who_req=req.body.userID
-        const userID_post=product.userID
-        try{
-
-            if(userID_who_req!==userID_post){
-            
-                res.send({"msg":"Not authorized"})
-            }else{
-
-                await productModel.findByIdAndDelete({"_id":id},payload)
-
-                res.send({"msg":"products is deleted"})
-            }
-        
-        }catch(err){
-
-            console.log(err)
-
-            res.send("somewthing went wrong check You are authoreized or not")
-        }
-   
-})
-module.exports={
-
-    AdminProductsRoute
-}
+    res.send("somewthing went wrong check You are authoreized or not");
+  }
+});
+module.exports = {
+  AdminProductsRoute,
+};
 
 // {
 //     "title":"Beco Woden Bamboo Toothbrash",
@@ -118,7 +91,5 @@ module.exports={
 //      "price":240,
 //      "off":5,
 //      "madein":"India"
-   
-  
-   
+
 //  }

@@ -12,6 +12,7 @@ const OrderSchema=mongoose.Schema({
    email:String,
    count:Number,
    address:String,
+   deliverStatus:Boolean
 
 })
 

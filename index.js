@@ -1,47 +1,43 @@
-const express=require("express")
+const express = require("express");
 
-const {connection}=require("./config/db")
-const app=express()
-const cors=require('cors')
-require("dotenv").config()
-const {AdminuserRoute}=require("./router/AdminuserRoute")
+const { connection } = require("./config/db");
+const app = express();
+const cors = require("cors");
+require("dotenv").config();
+const { AdminuserRoute } = require("./router/AdminuserRoute");
 
-const {Authentication}=require("./middleware/Authenticate")
+const { Authentication } = require("./middleware/Authenticate");
 
-const {AdminProductsRoute}=require("./router/AdminproductRoute")
-const { UserProductRoute } = require("./router/UserProductsRoutes")
-const { CustomerUserRoute } = require("./router/CustomerUserRoute")
-const { CartRoute } = require("./router/UserCartRoute")
-const { OrderRoute } = require("./router/OrderRoute")
-app.use(express.json())
+const { AdminProductsRoute } = require("./router/AdminproductRoute");
+const { UserProductRoute } = require("./router/UserProductsRoutes");
+const { CustomerUserRoute } = require("./router/CustomerUserRoute");
+const { CartRoute } = require("./router/UserCartRoute");
+const { OrderRoute } = require("./router/OrderRoute");
+app.use(express.json());
 
-app.use(cors())
+app.use(cors());
 
-app.get("/",(req,res)=>{
+app.get("/", (req, res) => {
+  res.send("This API is Private -*Made By Tarak* ");
+});
 
-   res.send("This API is Private -*Made By Tarak* ")
-})
+app.use("/admin", AdminuserRoute);
+app.use("/customerproducts", UserProductRoute);
+app.use("/orders", OrderRoute);
+app.use("/cart", CartRoute);
+app.use("/customerUser", CustomerUserRoute);
+app.use(Authentication);
 
-app.use("/admin",AdminuserRoute)
-app.use("/customerproducts",UserProductRoute)
-app.use("/orders",OrderRoute)
-app.use("/cart",CartRoute)
-app.use("/customerUser",CustomerUserRoute)
-app.use(Authentication)
+app.use("/Adminproducts", AdminProductsRoute);
+app.listen(process.env.port, async () => {
+  try {
+   
 
-app.use("/Adminproducts",AdminProductsRoute)
-app.listen(process.env.port,async ()=>{
+    await connection;
 
-
-    try{
-
-        await connection
-
-        console.log("connected to Db")
-    }catch(err){
-
-        console.log(err,"unable to connect")
-    }
-    console.log("server is running")
-})
-
+    console.log("connected to Db");
+  } catch (err) {
+    console.log(err, "unable to connect");
+  }
+  console.log("server is running");
+});
