@@ -9,22 +9,143 @@ UserProductRoute.get("/", async (req, res) => {
 
   res.send(products);
 });
-
+/////---kitchen--////////
 UserProductRoute.get("/kitchen", async (req, res) => {
-  const products = await productModel.find({ category: "kitchen" });
+  try {
+    const brandOptions = [];
+    const serach = req.query.search || "";
+    const intitialProduct = await productModel.find({ category: "kitchen" });
 
-  res.send(products);
+    intitialProduct.map((document) => {
+      brandOptions.push(document.brand);
+    });
+
+    let brand = req.query.brand || "All";
+
+    let discount = parseInt(req.query.off) || 0;
+    let sort = req.query.sort || "price";
+
+    brand === "All"
+      ? (brand = [...brandOptions])
+      : (brand = req.query.brand.split(","));
+
+    req.query.sort ? (sort = req.query.sort.split(",")) : (sort = [sort]);
+
+    let sortBy = {};
+
+    if (sort[1]) {
+      sortBy[sort[0]] = sort[1];
+    } else {
+      sortBy[sort[0]] = "asc";
+    }
+
+    const products = await productModel
+      .find({
+        category: "kitchen",
+        title: { $regex: serach },
+        off: { $gte: discount },
+      })
+      .where("brand")
+      .in(...brand)
+      .sort(sortBy);
+
+    res.send(products);
+  } catch (err) {
+    console.log(err);
+    res.send("error");
+  }
 });
+/////---fashion---//
 UserProductRoute.get("/fashion", async (req, res) => {
-  const products = await productModel.find({ category: "fashion" });
+  try {
+    const brandOptions = [];
+    const serach = req.query.search || "";
+    const intitialProduct = await productModel.find({ category: "fashion" });
 
-  res.send(products);
+    intitialProduct.map((document) => {
+      brandOptions.push(document.brand);
+    });
+
+    let brand = req.query.brand || "All";
+
+    let discount = parseInt(req.query.off) || 0;
+    let sort = req.query.sort || "price";
+
+    brand === "All"
+      ? (brand = [...brandOptions])
+      : (brand = req.query.brand.split(","));
+
+    req.query.sort ? (sort = req.query.sort.split(",")) : (sort = [sort]);
+
+    let sortBy = {};
+
+    if (sort[1]) {
+      sortBy[sort[0]] = sort[1];
+    } else {
+      sortBy[sort[0]] = "asc";
+    }
+
+    const products = await productModel
+      .find({
+        category: "fashion",
+        title: { $regex: serach },
+        off: { $gte: discount },
+      })
+      .where("brand")
+      .in(...brand)
+      .sort(sortBy);
+
+    res.send(products);
+  } catch (err) {
+    console.log(err);
+    res.send("error");
+  }
 });
-
+////plants---///
 UserProductRoute.get("/plants", async (req, res) => {
-  const products = await productModel.find({ category: "plants" });
+  try {
+    const brandOptions = [];
+    const serach = req.query.search || "";
+    const intitialProduct = await productModel.find({ category: "plants" });
 
-  res.send(products);
+    intitialProduct.map((document) => {
+      brandOptions.push(document.brand);
+    });
+
+    let brand = req.query.brand || "All";
+
+    let discount = parseInt(req.query.off) || 0;
+    let sort = req.query.sort || "price";
+
+    brand === "All"
+      ? (brand = [...brandOptions])
+      : (brand = req.query.brand.split(","));
+
+    req.query.sort ? (sort = req.query.sort.split(",")) : (sort = [sort]);
+
+    let sortBy = {};
+
+    if (sort[1]) {
+      sortBy[sort[0]] = sort[1];
+    } else {
+      sortBy[sort[0]] = "asc";
+    }
+
+    const products = await productModel
+      .find({
+        category: "plants",
+        title: { $regex: serach },
+        off: { $gte: discount },
+      })
+      .where("brand")
+      .in(...brand)
+      .sort(sortBy);
+
+    res.send(products);
+  } catch (err) {
+    console.log(err);
+    res.send("error");
+  }
 });
 
 module.exports = {

@@ -28,7 +28,7 @@ app.use("/cart", CartRoute);
 app.use("/customerUser", CustomerUserRoute);
 app.use(Authentication);
 
-app.use("/Adminproducts", AdminProductsRoute);
+app.use("/adminproducts", AdminProductsRoute);
 app.listen(process.env.port, async () => {
   try {
    
