@@ -5,9 +5,18 @@ const { productModel } = require("../models/ProductsModel");
 const UserProductRoute = express.Router();
 
 UserProductRoute.get("/", async (req, res) => {
-  const products = await productModel.find();
+  try {
+    const serach = req.query.search || "";
 
-  res.send(products);
+    const products = await productModel.find({
+      title: { $regex: serach }
+    });
+
+    res.send(products);
+  } catch (err) {
+    console.log(err);
+    res.send("error");
+  }
 });
 /////---kitchen--////////
 UserProductRoute.get("/kitchen", async (req, res) => {
