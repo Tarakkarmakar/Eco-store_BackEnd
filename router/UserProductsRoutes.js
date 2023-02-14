@@ -21,6 +21,8 @@ UserProductRoute.get("/", async (req, res) => {
 /////---kitchen--////////
 UserProductRoute.get("/kitchen", async (req, res) => {
   try {
+
+ 
     const brandOptions = [];
     const serach = req.query.search || "";
     const intitialProduct = await productModel.find({ category: "kitchen" });
@@ -53,9 +55,8 @@ let order=req.query.order
         category: "kitchen",
         title: { $regex: serach },
         off: { $gte: discount },
+        brand:[...brand]
       })
-      .where("brand")
-      .in(...brand)
       .sort(sortBy);
 
     res.send(products);
@@ -67,6 +68,8 @@ let order=req.query.order
 /////---fashion---//
 UserProductRoute.get("/fashion", async (req, res) => {
   try {
+
+ 
     const brandOptions = [];
     const serach = req.query.search || "";
     const intitialProduct = await productModel.find({ category: "fashion" });
@@ -79,7 +82,7 @@ UserProductRoute.get("/fashion", async (req, res) => {
 
     let discount = parseInt(req.query.off) || 0;
     let sort = req.query.sort || "price";
-    let order=req.query.order 
+let order=req.query.order 
     brand === "All"
       ? (brand = [...brandOptions])
       : (brand = req.query.brand.split(","));
@@ -99,9 +102,8 @@ UserProductRoute.get("/fashion", async (req, res) => {
         category: "fashion",
         title: { $regex: serach },
         off: { $gte: discount },
+        brand:[...brand]
       })
-      .where("brand")
-      .in(...brand)
       .sort(sortBy);
 
     res.send(products);
@@ -113,6 +115,8 @@ UserProductRoute.get("/fashion", async (req, res) => {
 ////plants---///
 UserProductRoute.get("/plants", async (req, res) => {
   try {
+
+ 
     const brandOptions = [];
     const serach = req.query.search || "";
     const intitialProduct = await productModel.find({ category: "plants" });
@@ -120,12 +124,12 @@ UserProductRoute.get("/plants", async (req, res) => {
     intitialProduct.map((document) => {
       brandOptions.push(document.brand);
     });
-    let order=req.query.order 
+
     let brand = req.query.brand || "All";
 
     let discount = parseInt(req.query.off) || 0;
     let sort = req.query.sort || "price";
-
+let order=req.query.order 
     brand === "All"
       ? (brand = [...brandOptions])
       : (brand = req.query.brand.split(","));
@@ -145,9 +149,8 @@ UserProductRoute.get("/plants", async (req, res) => {
         category: "plants",
         title: { $regex: serach },
         off: { $gte: discount },
+        brand:[...brand]
       })
-      .where("brand")
-      .in(...brand)
       .sort(sortBy);
 
     res.send(products);
