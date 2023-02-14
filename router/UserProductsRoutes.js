@@ -33,7 +33,7 @@ UserProductRoute.get("/kitchen", async (req, res) => {
 
     let discount = parseInt(req.query.off) || 0;
     let sort = req.query.sort || "price";
-
+let order=req.query.order 
     brand === "All"
       ? (brand = [...brandOptions])
       : (brand = req.query.brand.split(","));
@@ -42,8 +42,8 @@ UserProductRoute.get("/kitchen", async (req, res) => {
 
     let sortBy = {};
 
-    if (sort[1]) {
-      sortBy[sort[0]] = sort[1];
+    if (order) {
+      sortBy[sort[0]] = order;
     } else {
       sortBy[sort[0]] = "asc";
     }
@@ -79,7 +79,7 @@ UserProductRoute.get("/fashion", async (req, res) => {
 
     let discount = parseInt(req.query.off) || 0;
     let sort = req.query.sort || "price";
-
+    let order=req.query.order 
     brand === "All"
       ? (brand = [...brandOptions])
       : (brand = req.query.brand.split(","));
@@ -88,8 +88,8 @@ UserProductRoute.get("/fashion", async (req, res) => {
 
     let sortBy = {};
 
-    if (sort[1]) {
-      sortBy[sort[0]] = sort[1];
+    if (order) {
+      sortBy[sort[0]] = order;
     } else {
       sortBy[sort[0]] = "asc";
     }
@@ -120,7 +120,7 @@ UserProductRoute.get("/plants", async (req, res) => {
     intitialProduct.map((document) => {
       brandOptions.push(document.brand);
     });
-
+    let order=req.query.order 
     let brand = req.query.brand || "All";
 
     let discount = parseInt(req.query.off) || 0;
@@ -134,8 +134,8 @@ UserProductRoute.get("/plants", async (req, res) => {
 
     let sortBy = {};
 
-    if (sort[1]) {
-      sortBy[sort[0]] = sort[1];
+    if (order) {
+      sortBy[sort[0]] = order;
     } else {
       sortBy[sort[0]] = "asc";
     }
