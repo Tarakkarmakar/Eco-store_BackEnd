@@ -3,21 +3,25 @@ const jwt = require("jsonwebtoken");
 
 const bcrypt = require("bcrypt");
 const { CustomerUserModel } = require("../models/CustomerUserModel");
+const { parse } = require("dotenv");
 
 const CustomerUserRoute = express.Router();
 
 CustomerUserRoute.get("/:email", async (req, res) => {
-
-const email=req.params.email
+  const email = req.params.email;
   try {
-   
-    const user = await CustomerUserModel.findOne({email: email})
-      res.send(user);
-
+    const user = await CustomerUserModel.findOne({ email: email });
+       
+if(user){
+    res.send(user);
+}else{
+  
+  res.send("invalid" )
+}
   } catch (err) {
     console.log(err);
 
-    res.send({"error":err});
+    res.send({ error: err });
   }
 });
 CustomerUserRoute.post("/register", async (req, res) => {
