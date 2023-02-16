@@ -6,6 +6,20 @@ const { CustomerUserModel } = require("../models/CustomerUserModel");
 
 const CustomerUserRoute = express.Router();
 
+CustomerUserRoute.get("/:id", async (req, res) => {
+
+const id=req.params.id
+  try {
+   
+    const user = await CustomerUserModel.findOne({ _id: id})
+      res.send(user);
+
+  } catch (err) {
+    console.log(err);
+
+    res.send("Invalid");
+  }
+});
 CustomerUserRoute.post("/register", async (req, res) => {
   const { name, email, gender, password } = req.body;
 
