@@ -18,6 +18,23 @@ UserProductRoute.get("/", async (req, res) => {
     res.send("error");
   }
 });
+
+UserProductRoute.get("/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+  
+
+    const products = await productModel.findOne({
+    
+      _id:id
+    });
+
+    res.send(products);
+  } catch (err) {
+    console.log(err);
+    res.send("error");
+  }
+})
 /////---kitchen--////////
 UserProductRoute.get("/kitchen", async (req, res) => {
   try {
