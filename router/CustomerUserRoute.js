@@ -6,12 +6,12 @@ const { CustomerUserModel } = require("../models/CustomerUserModel");
 
 const CustomerUserRoute = express.Router();
 
-CustomerUserRoute.get("/:id", async (req, res) => {
+CustomerUserRoute.get("/:email", async (req, res) => {
 
-const id=req.params.id
+const email=req.params.email
   try {
    
-    const user = await CustomerUserModel.findOne({ _id: id})
+    const user = await CustomerUserModel.findOne({email: email})
       res.send(user);
 
   } catch (err) {
