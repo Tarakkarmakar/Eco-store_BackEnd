@@ -17,7 +17,7 @@ const id=req.params.id
   } catch (err) {
     console.log(err);
 
-    res.send("Invalid");
+    res.send({"error":err});
   }
 });
 CustomerUserRoute.post("/register", async (req, res) => {
