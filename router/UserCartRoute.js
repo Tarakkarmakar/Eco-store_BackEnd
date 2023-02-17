@@ -42,6 +42,18 @@ CartRoute.delete("/delete/:id", async (req, res) => {
     console.log(err);
   }
 });
+CartRoute.patch("/update/:id", async (req, res) => {
+  const id = req.params.id;
+const payload=req.body
+  try {
+    await CartModel.findByIdAndUpdate({ _id: id },payload);
+
+    res.send({ msg: "products is updated" });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 module.exports = {
   CartRoute,
 };
