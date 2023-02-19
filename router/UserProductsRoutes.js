@@ -9,7 +9,7 @@ UserProductRoute.get("/", async (req, res) => {
     const serach = req.query.search || "";
 
     const products = await productModel.find({
-      title: { $regex: serach }
+      title: { $regex: serach },
     });
 
     res.send(products);
@@ -19,14 +19,12 @@ UserProductRoute.get("/", async (req, res) => {
   }
 });
 
-UserProductRoute.get("/:id", async (req, res) => {
+UserProductRoute.get("/single/:id", async (req, res) => {
   try {
     const id = req.params.id;
-  
 
     const products = await productModel.findOne({
-    
-      _id:id
+      _id: id,
     });
 
     res.send(products);
@@ -34,12 +32,10 @@ UserProductRoute.get("/:id", async (req, res) => {
     console.log(err);
     res.send("error");
   }
-})
+});
 /////---kitchen--////////
 UserProductRoute.get("/kitchen", async (req, res) => {
   try {
-
- 
     const brandOptions = [];
     const serach = req.query.search || "";
     const intitialProduct = await productModel.find({ category: "kitchen" });
@@ -52,7 +48,7 @@ UserProductRoute.get("/kitchen", async (req, res) => {
 
     let discount = parseInt(req.query.off) || 0;
     let sort = req.query.sort || "price";
-let order=req.query.order 
+    let order = req.query.order;
     brand === "All"
       ? (brand = [...brandOptions])
       : (brand = req.query.brand.split(","));
@@ -72,21 +68,19 @@ let order=req.query.order
         category: "kitchen",
         title: { $regex: serach },
         off: { $gte: discount },
-        brand:[...brand]
+        brand: [...brand],
       })
       .sort(sortBy);
 
     res.send(products);
   } catch (err) {
     console.log(err);
-    res.send("error");
+    res.send({ "error occurd": err });
   }
 });
 /////---fashion---//
 UserProductRoute.get("/fashion", async (req, res) => {
   try {
-
- 
     const brandOptions = [];
     const serach = req.query.search || "";
     const intitialProduct = await productModel.find({ category: "fashion" });
@@ -99,7 +93,7 @@ UserProductRoute.get("/fashion", async (req, res) => {
 
     let discount = parseInt(req.query.off) || 0;
     let sort = req.query.sort || "price";
-let order=req.query.order 
+    let order = req.query.order;
     brand === "All"
       ? (brand = [...brandOptions])
       : (brand = req.query.brand.split(","));
@@ -119,7 +113,7 @@ let order=req.query.order
         category: "fashion",
         title: { $regex: serach },
         off: { $gte: discount },
-        brand:[...brand]
+        brand: [...brand],
       })
       .sort(sortBy);
 
@@ -132,8 +126,6 @@ let order=req.query.order
 ////plants---///
 UserProductRoute.get("/plants", async (req, res) => {
   try {
-
- 
     const brandOptions = [];
     const serach = req.query.search || "";
     const intitialProduct = await productModel.find({ category: "plants" });
@@ -146,7 +138,7 @@ UserProductRoute.get("/plants", async (req, res) => {
 
     let discount = parseInt(req.query.off) || 0;
     let sort = req.query.sort || "price";
-let order=req.query.order 
+    let order = req.query.order;
     brand === "All"
       ? (brand = [...brandOptions])
       : (brand = req.query.brand.split(","));
@@ -166,7 +158,7 @@ let order=req.query.order
         category: "plants",
         title: { $regex: serach },
         off: { $gte: discount },
-        brand:[...brand]
+        brand: [...brand],
       })
       .sort(sortBy);
 
