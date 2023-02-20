@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(cors());
 
 app.get("/", (req, res) => {
-  res.send("This API is Private -*Made By Tarak* ");
+  res.send("This API is Private -*Made By Tarak** ");
 });
 
 app.use("/admin", AdminuserRoute);
