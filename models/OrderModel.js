@@ -10,6 +10,7 @@ const OrderSchema=mongoose.Schema({
     payment:Boolean,
     price:Number,
    email:String,
+   Mobile:Number,
    count:Number,
    address:String,
    deliverStatus:Boolean
