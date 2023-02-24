@@ -56,6 +56,17 @@ OrderRoute.delete("/deleteUserOrder/:id", async (req, res) => {
     console.log(err);
   }
 });
+OrderRoute.delete("/deleteBymail/:email", async (req, res) => {
+  const email = req.params.email;
+
+  try {
+    await OrderModel.findByIdAndDelete({email: email });
+
+    res.send({ msg: "userOrder is deleted" });
+  } catch (err) {
+    console.log(err);
+  }
+});
 
 module.exports = {
   OrderRoute,
