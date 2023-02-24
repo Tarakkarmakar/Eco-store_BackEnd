@@ -21,12 +21,12 @@ OrderRoute.post("/create", async (req, res) => {
   const payload = req.body;
 
   try {
-    payload.map(async (ele) => {
-      const new_product = new OrderModel(ele);
+    
+      const new_product = new OrderModel(payload);
 
       await new_product.save();
-    });
-
+   
+       
     res.send({ msg: "products has been save" });
   } catch (err) {
     res.send({ msg: "invalid" });
