@@ -42,17 +42,7 @@ CartRoute.delete("/delete/:id", async (req, res) => {
     console.log(err);
   }
 });
-CartRoute.delete("/deleteUserOrder/:id", async (req, res) => {
-  const id = req.params.id;
 
-  try {
-    await CartModel.findByIdAndDelete({OrderedBy: id });
-
-    res.send({ msg: "userOrder is deleted" });
-  } catch (err) {
-    console.log(err);
-  }
-});
 
 CartRoute.patch("/update/:id", async (req, res) => {
   const id = req.params.id;

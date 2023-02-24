@@ -37,13 +37,26 @@ OrderRoute.delete("/delete/:id", async (req, res) => {
   const id = req.params.id;
 
   try {
-    await OrderModel.findByIdAndDelete({ ProductID: id });
+    await OrderModel.findByIdAndDelete({ _id: id });
 
     res.send({ msg: "products is deleted" });
   } catch (err) {
     console.log(err);
   }
 });
+
+OrderRoute.delete("/deleteUserOrder/:id", async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    await OrderModel.findByIdAndDelete({OrderedBy: id });
+
+    res.send({ msg: "userOrder is deleted" });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 module.exports = {
   OrderRoute,
 };
